@@ -1,10 +1,9 @@
 from textnode import TextNode, TextType
+from leafnode import LeafNode
 
 def main():
-    some_node = TextNode("text", TextType.PLAIN, "https://www.boot.dev")
-    other_node = TextNode("text", TextType.PLAIN, "https://www.boot.dev")
-    print(some_node)
-    print(some_node == other_node)
+    text_node = TextNode("text", TextType.PLAIN, "https://www.boot.dev")
+    # leaf_node = LeafNode("this", "that", [])
 
     
 main()
