@@ -15,11 +15,11 @@ class TestTextNode(unittest.TestCase):
         node.text = "new_val"
         self.assertNotEqual(node, node2)
         
-        node.text, node2.text_type = "This is a text node", TextType.PLAIN
+        node.text, node2.text_type = "This is a text node", TextType.TEXT
         self.assertNotEqual(node, node2)
     
     def test_valid(self):
-        node2 = TextNode("Text node", TextType.PLAIN, None)
+        node2 = TextNode("Text node", TextType.TEXT, None)
         self.assertIsNone(node2.url)
 
 if __name__ == "__main__":
