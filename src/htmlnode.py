@@ -31,3 +31,32 @@ class HTMLNode():
             value: {self.value} \n\
             children: {self.children} \n\
             props: {self.props}"
+    
+class LeafNode(HTMLNode):
+    def __init__(self, tag: str, value: str, props: dict = None):
+        super().__init__(tag, value, None, props)
+
+    def to_html(self):
+        if self.value is None:
+            raise ValueError("invalid HTML: no value")
+        elif self.tag is None:
+            return f"{self.value}"
+        else:
+            return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
+
+class ParentNode(HTMLNode):
+    def __init__(self, tag: str, children: list, props: dict = None):
+        super().__init__(tag, None, children, props)
+    
+    def to_html(self):
+        if self.tag is None:
+            raise ValueError("invalid HTML: no value")
+        elif self.children is None or self.children == []:
+            raise ValueError("invalid parent: no children")
+        
+        output = f"<{self.tag}{self.props_to_html()}>"
+        for child in self.children:
+            output += child.to_html()
+        
+        output += f"</{self.tag}>"
+        return output
