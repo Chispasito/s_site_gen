@@ -67,11 +67,11 @@ class TestTextToHTML(unittest.TestCase):
         html_node = text_node_to_html_node(node)
         self.assertEqual(html_node.tag, "p")
         self.assertEqual(html_node.value, "This is a text node")
-        #print(html_node.to_html())
+        # print(html_node.to_html())
 
         node2 = TextNode("This is a text node", TextType.IMAGE, "http://url")
         html_node2 = text_node_to_html_node(node2)
-        print(html_node2.to_html())
+        # print(html_node2.to_html())
 
 if __name__ == "__main__":
     unittest.main()

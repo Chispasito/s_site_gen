@@ -78,13 +78,42 @@ def text_node_to_html_node(text_node: TextNode):
 
     return node
 
-# It should handle each type of the TextType enum. 
-# If it gets a TextNode that is none of those types, it should raise an exception. 
-# Otherwise, it should return a new LeafNode object.
+def split_nodes_delimiter(old_nodes, delimiter, text_type):    
+    text_nodes = []
 
-# TextType.TEXT: This should return a LeafNode with no tag, just a raw text value.
-# TextType.BOLD: This should return a LeafNode with a "b" tag and the text
-# TextType.ITALIC: "i" tag, text
-# TextType.CODE: "code" tag, text
-# TextType.LINK: "a" tag, anchor text, and "href" prop
-# TextType.IMAGE: "img" tag, empty string value, "src" and "alt" props ("src" is the image URL, "alt" is the alt text)
+    for node in old_nodes:
+        if node.text_type != TextType.TEXT:
+            text_nodes.append(node)
+            continue
+        
+        split_container = node.text.split(delimiter)
+    
+        ob_dict = [TextNode(split_container[0], TextType.TEXT)]
+        match delimiter:
+            case "`":
+                ob_dict.append(TextNode(split_container[1], TextType.CODE))
+            case "**":
+                ob_dict.append(TextNode(split_container[1], TextType.BOLD))
+            case "_":
+                ob_dict.append(TextNode(split_container[1], TextType.ITALIC))
+            case _:
+                ob_dict.append(TextNode(split_container[1], TextType.TEXT))
+        ob_dict.append(TextNode(split_container[2], TextType.TEXT))
+    
+        text_nodes.extend(ob_dict)
+        print(text_nodes)
+
+
+
+    return text_nodes 
+
+# This:
+# node = TextNode("This is text with a `code block` word", TextType.TEXT)
+# new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
+#
+# Becomes:
+# [
+#     TextNode("This is text with a ", TextType.TEXT),
+#     TextNode("code block", TextType.CODE),
+#     TextNode(" word", TextType.TEXT),
+# ]
